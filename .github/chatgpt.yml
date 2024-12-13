@@ -1,0 +1,30 @@
+name: ChatGPT Query
+
+on:
+  workflow_dispatch: # 手动触发工作流
+
+jobs:
+  query:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Check out the code
+      uses: actions/checkout@v3
+
+    - name: Query ChatGPT
+      env:
+        OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+      run: |
+        echo "Sending query to ChatGPT..."
+        RESPONSE=$(curl -s https://api.openai.com/v1/completions \
+          -H "Authorization: Bearer $OPENAI_API_KEY" \
+          -H "Content-Type: application/json" \
+          -d '{
+            "model": "gpt-4",
+            "prompt": "用简单的语言解释 GitHub Actions 是什么。",
+            "max_tokens": 100,
+            "temperature": 0.7
+          }')
+
+        echo "ChatGPT Response:"
+        echo $RESPONSE | jq '.choices[0].text'
