@@ -18,6 +18,8 @@ jobs:
         echo "Sending query to ChatGPT..."
         RESPONSE=$(curl -s https://api.openai.com/v1/completions \
           -H "Authorization: Bearer $OPENAI_API_KEY" \
+          -H "OpenAI-Organization: org-EyBft6S2A9zdrj3vs6ofZE6f" \
+          -H "OpenAI-Project: $PROJECT_ID"
           -H "Content-Type: application/json" \
           -d '{
             "model": "gpt-4",
